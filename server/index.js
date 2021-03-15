@@ -5,7 +5,6 @@ const http = require('http');
 const PORT = process.env.PORT || 5000;
 
 const router = require('./router');
-const { Socket } = require('dgram');
 
 const app = express();  
 const server = http.createServer(app);
@@ -13,6 +12,10 @@ const io = socketio(server);
 
 io.on('connection',(socket)=>{
     console.log('We have a new connection');
+    socket.on('join',({name,room}, callback)=>{
+      console.log(name,room);
+      callback(); 
+    })
 
     socket.on('disconnect',()=>{
         console.log('User had left !!!');
